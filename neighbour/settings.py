@@ -41,6 +41,8 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'neighbourhood.apps.NeighbourhoodConfig',
     'bootstrap4',
+    'rest_framework',
+    'rest_framework.authtoken'
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -136,3 +138,9 @@ STATICFILES_DIRS = [
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    )
+}
