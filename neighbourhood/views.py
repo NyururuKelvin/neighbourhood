@@ -1,7 +1,7 @@
 from django.shortcuts import render,get_object_or_404,redirect
 from django.http  import HttpResponse
 from django.contrib.auth.decorators import login_required
-from .models import Post,Business,User,Neighbourhood
+from .models import Post,Business,Usser,Neighbourhood
 from .forms import PostPost,UpdateUser,UpdateProfile,SignUpForm
 from django.contrib.auth.models import User
 
@@ -44,7 +44,7 @@ def search_business(request):
     """
     if 'business' in request.GET and request.GET["business"]:
         search_term = request.GET.get("business")
-        searched_business = Project.objects.filter(title__icontains=search_term)
+        searched_business = Post.objects.filter(title__icontains=search_term)
         message = f"{search_term}"
         businesses = Business.objects.all()
         
