@@ -1,8 +1,8 @@
 from django.shortcuts import render,get_object_or_404,redirect
 from django.http  import HttpResponse
 from django.contrib.auth.decorators import login_required
-from .models import Post,Business,Profile,Neighbourhood
-from .forms import PostPost,UpdateUser,SignUpForm
+from .models import Post,Business,Profile,Neighbourhood,Comment
+from .forms import PostPost,UpdateUser,SignUpForm,CommentForm
 from django.contrib.auth.models import User
 
 # Create your views here.

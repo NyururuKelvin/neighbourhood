@@ -38,49 +38,37 @@
         </a>
     </div>
 
-    <div class="container" style="padding-top: 18px;">
-
+    <div class="container">
+        <legend style="text-align: center;">POSTS</legend>
         <div class="row">
-          <div class="col-lg-2 col-md-2 col-sm-1 col-xs-1"></div>
-          <div class="col-lg-8 col-md-8 col-sm-10 col-xs-10">
-            <legend style="text-align: center; font-size: 1.7em; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;">UPDATES</legend>
-            {% for item in posts.items %}
-            <article class="media content-section card" style="align-items: center;">
-                {% if item.user.profile_pic_path %}
-                <div class="article-metadata" style="position: absolute; margin-left: 60px; margin-top: 10px;">
-                    <a class='mr-2' href="" style="font-size: 1.3em; font-weight: bolder; text-decoration: none; color: black;">{{item.user.username}}</a>
-                    <small class="text-muted">{{item.posted_date}}</small>
-               </div>
-                <img src="" class="img-circle article-img img-responsive" style="width: 45px; height: 45px; position: relative;">
-                {%else%}
-                <img src="" class="card-img rounded-circle article-img" alt="" style="width: 45px; height: 45px;position: relative;">
-                {% endif %}
-                <div class="media-body" >
-                    
-                    <h5 style="margin-left: 60px;"><a href="" style="font-size: 1.1em; text-decoration: none; font-weight:bold;  color: black;">{{item.title}}</a></h5>
-                    <p class="article-content" style="margin-left: 60px;">{{item.post}}</p>
-                    {% if item.picture%}
-                      <div style="margin-left: 60px;"><img src="" alt="" class="img-thumbnail img-responsive img-thumbnail"></div>
-                    {% endif%}
-                    
-                    <strong style="margin-left: 2%;">Comments:</strong>
-                    {% for comment in comments %}
-                    {%if post.id == comment.post.id%}
-                    <p><a href="{% url 'profile' post.user.id %}" style="margin-left: 2%; color: black;"><strong>{{comment.user.username}}</strong></a> {{comment.comment | title}}</p>
-                    {%endif%}
-                    {% endfor %}
-
-                    <form method="post" style="margin-top: 1.3em; margin-left: 2%;">
-                        {{form.comment}}
-                        {% csrf_token %}
-                        <input type="hidden" value="{{post.id}}" name="post_id" />
-                        <button type="submit" class="btn btn-primary" style="margin-bottom: 1%;">Comment</button>
-                    </form>
-                </div>
-            </article><hr>
-            {% endfor%}
-          </div>
+            <div class="col-lg-2 col-md-2 col-sm-1 col-xs-1"></div>
+            <div class="col-lg-8 col-md-8 col-sm-10 col-xs-10">
+                {% for post in posts %}
+                <article class="media content-section card" style="align-items: center;">
+                    <div class="card">
+                        <a href=""><img style="height: 60vh; width: 100%;" class="card-img-top" src="{{post.image.url}}" alt="Card image cap"></a>
+                        <div class="card-body" >
+                            <h5>{{post.title}}</h5>
+                            <p>{{post.post}}</p>
+                            <h6>Comments: </h6>
+                            {% for comment in comments %}
+                                {%if post.id == comment.post.id%}
+                                    <p><a href="{% url 'profile' }"><strong>{{comment.user.username}}</strong></a> {{comment.comment | title}}</p>
+                                {%endif%}
+                            {% endfor %}
+    
+                            <form method="post" style="margin-top: 1.3em; margin-left: 2%;">
+                                {{form.comment}}
+                                {% csrf_token %}
+                                <input type="hidden" value="{{post.id}}" name="post_id" />
+                                <button type="submit" class="btn btn-primary" style="margin-bottom: 1%;">Comment</button>
+                            </form>
+                        </div>
+                    </div>
+                </article><hr>
+                {% endfor%}
+            </div>
         </div>
-          <div class="col-lg-2 col-md-2 col-sm-1 col-xs-1"></div>
-        </div>
-{% endblock %}
+        
+    </div>
+{%endblock%}
