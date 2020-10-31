@@ -37,4 +37,37 @@
             <span class="carousel-control-next-icon"></span>
         </a>
     </div>
+
+    <div class="container" style="padding-top: 18px;">
+
+        <div class="row">
+          <div class="col-lg-2 col-md-2 col-sm-1 col-xs-1"></div>
+          <div class="col-lg-8 col-md-8 col-sm-10 col-xs-10">
+            <legend style="text-align: center; font-size: 1.7em; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;">Updates</legend>
+            {% for item in posts.items %}
+            <article class="media content-section card" style="align-items: center;">
+                {% if item.user.profile_pic_path %}
+                <div class="article-metadata" style="position: absolute; margin-left: 60px; margin-top: 10px;">
+                    <a class='mr-2' href="" style="font-size: 1.3em; font-weight: bolder; text-decoration: none; color: black;">{{item.user.username}}</a>
+                    <small class="text-muted">{{item.posted_date}}</small>
+               </div>
+                <img src="" class="img-circle article-img img-responsive" style="width: 45px; height: 45px; position: relative;">
+                {%else%}
+                <img src="" class="card-img rounded-circle article-img" alt="" style="width: 45px; height: 45px;position: relative;">
+                {% endif %}
+                <div class="media-body" >
+                    
+                    <h5 style="margin-left: 60px;"><a href="" style="font-size: 1.1em; text-decoration: none; font-weight:bold;  color: black;">{{item.title}}</a></h5>
+                    <p class="article-content" style="margin-left: 60px;">{{item.post}}</p>
+                    {% if item.picture%}
+                      <div style="margin-left: 60px;"><img src="" alt="" class="img-thumbnail img-responsive img-thumbnail"></div>
+                    {% endif%}
+                    <a href="" class="btn btn-success" style="margin-top: 15px; margin-left: 60px;"><small>Comment</small></a>
+                </div>
+            </article><hr>
+            {% endfor%}
+          </div>
+        </div>
+          <div class="col-lg-2 col-md-2 col-sm-1 col-xs-1"></div>
+        </div>
 {% endblock %}
