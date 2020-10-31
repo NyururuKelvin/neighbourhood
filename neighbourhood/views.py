@@ -1,15 +1,30 @@
 from django.shortcuts import render,get_object_or_404,redirect
 from django.http  import HttpResponse
 from django.contrib.auth.decorators import login_required
-from .models import Post,Business,Usser,Neighbourhood
-from .forms import PostPost,UpdateUser,UpdateProfile,SignUpForm
+from .models import Post,Business,Profile,Neighbourhood
+from .forms import PostPost,UpdateUser,SignUpForm
 from django.contrib.auth.models import User
 
 # Create your views here.
 def index(request):
+    # Default view
+    current_user = request.user
     posts = Post.objects.all()
-    users = User.objects.all()
-    return render(request, 'temps/index.html', {'posts': posts, 'users':users})
+    users = Profile.objects.all()
+    comments = Comment.get_comments()
+
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.user = current_user
+            comment.post = Post.objects.get(id=int(request.POST["post_id"]))
+            comment.save()
+            return redirect('index')
+    else:
+        form = CommentForm()
+
+    return render(request, 'temps/index.html', {'current_user':current_user,'posts': posts, 'form':form, 'comments':comments, 'users':users, })
 
 def about(request):
     return render(request, 'temps/about_us.html')
