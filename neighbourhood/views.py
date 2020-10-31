@@ -1,5 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render,get_object_or_404,redirect
+from django.http  import HttpResponse
+from django.contrib.auth.decorators import login_required
 from .models import Post,Business,User,Neighbourhood
+from .forms import PostPost,UpdateUser,UpdateProfile,SignUpForm
+from django.contrib.auth.models import User
 
 # Create your views here.
 def index(request):
@@ -29,7 +33,7 @@ def signup(request):
             [email],
             fail_silently=False,
             )
-        return redirect('home')
+        return redirect('index')
     else:
         form = SignUpForm()
     return render(request, 'registration/registration_form.html', {'form': form, 'name':name})
@@ -71,14 +75,14 @@ def update_profile(request):
 def new_post(request):
     current_user=request.user
     if request.method=='POST':
-        form=PostProject(request.POST,request.FILES)
+        form=PostPost(request.POST,request.FILES)
         if form.is_valid():
             project=form.save(commit=False)
             project.user=current_user
             project.save()
-        return redirect('home')
+        return redirect('index')
     
     else:
-        form=PostProject()
+        form=PostPost()
         
     return render(request,'temps/new_post.html',{'form':form})
