@@ -1,0 +1,20 @@
+{% extends 'temps/base.html'%}
+{% load bootstrap4 %} 
+{% load static %}
+{% block content%}
+<div class="container mt-3 mb-5">
+    <div class="row">
+        <div class="col-lg-2 col-md-2 col-xs-0"></div>
+        <div class="col-lg-8 col-md-8">
+            <legend class="text-center border ">ADD A POST</legend>
+            <form  action="{% url 'new_post'%}" method="post" enctype="multipart/form-data">
+                {%csrf_token%}
+
+                {% bootstrap_form form%}
+                <input type="submit" class="btn btn-success btn-block" value="Submit Project">
+            </form>
+        </div>
+        <div class="col-lg-2 col-md-2 col-xs-0"></div>
+    </div>
+</div>
+{% endblock%}

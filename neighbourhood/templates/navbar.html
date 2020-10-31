@@ -17,7 +17,7 @@
           <!-- Adding a search form  -->
           <div class="col-sm-2 col-md-2 navbar-right">
 
-            <form class="navbar-form" role="search" action="">
+            <form class="navbar-form" role="search" action="{% url 'search' %}">
 
               <div class="input-group">
                 <input type="text" class="form-control" placeholder="Search Business" name="business" style="border-radius: 28px;">
@@ -29,6 +29,7 @@
             </form>
           </div>
           <!-- search form end -->
+          <div class="item has-tablet" id="bt-submit"><a href="{% url 'new_post'%}" class="button"><span>SUBMIT YOUR POST</span></a></div>
         </div>
       </nav>
   </div>
