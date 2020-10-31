@@ -62,4 +62,19 @@ def update_profile(request):
     else:
         update_user=UpdateUser(instance=request.user)
         update_profile=UpdateProfile(instance=profile)
-    return render(request, 'project/update_profile.html',{'update_user':update_user,'update_profile':update_profile})
+    return render(request, 'temps/update_profile.html',{'update_user':update_user,'update_profile':update_profile})
+
+def new_post(request):
+    current_user=request.user
+    if request.method=='POST':
+        form=PostProject(request.POST,request.FILES)
+        if form.is_valid():
+            project=form.save(commit=False)
+            project.user=current_user
+            project.save()
+        return redirect('home')
+    
+    else:
+        form=PostProject()
+        
+    return render(request,'temps/new_post.html',{'form':form})
