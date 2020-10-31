@@ -34,7 +34,7 @@ def signup(request):
         form = SignUpForm()
     return render(request, 'registration/registration_form.html', {'form': form, 'name':name})
 
-def search_project(request):
+def search_business(request):
     """
     Function that searches for projects
     """
