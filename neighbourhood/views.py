@@ -4,10 +4,14 @@ from .models import Post,Business,User,Neighbourhood
 # Create your views here.
 def index(request):
     posts = Post.objects.all()
-    return render(request, 'temps/index.html', {'posts': posts})
+    users = User.objects.all()
+    return render(request, 'temps/index.html', {'posts': posts, 'users':users})
 
 def about(request):
     return render(request, 'temps/about_us.html')
+
+def profile(request):
+    return render(request,'temps/profile.html')
 
 def signup(request):
     name = "Sign Up"
