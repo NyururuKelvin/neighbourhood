@@ -59,7 +59,7 @@ def search_business(request):
     """
     if 'business' in request.GET and request.GET["business"]:
         search_term = request.GET.get("business")
-        searched_business = Post.objects.filter(title__icontains=search_term)
+        searched_business = Business.objects.filter(name__icontains=search_term)
         message = f"{search_term}"
         businesses = Business.objects.all()
         
