@@ -3,5 +3,5 @@ from .models import Business
 
 class BusinessSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Company
+        model = Business
         fields = ('name', 'description', 'user','category')

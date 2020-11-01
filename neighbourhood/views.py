@@ -104,20 +104,20 @@ def edit_profile(request,username):
             form = UpdateProfile()
     return render(request,'edit_profile.html',{"form":form})
 
-def post(request,id):
-    post = Post.objects.get(id=id)
-    comments = Comment.objects.filter(post=post)
-    if request.method == 'POST':
-        form = CommentForm(request.POST)
+def post(request):
+    current_user=request.user
+    if request.method=='POST':
+        form=PostForm(request.POST,request.FILES)
         if form.is_valid():
-            comment = form.save(commit=False)
-            comment.user = request.user
-            comment.post = post
-            comment.save()
-        return redirect('post',id = post.id)
+            post=form.save(commit=False)
+            post.user=current_user
+            Post.save()
+        return redirect('index')
+    
     else:
-        form = CommentForm()
-    return render(request,'post.html',{"post":post,"comments":comments,"form":form})
+        form=PostForm()
+        
+    return render(request,'temps/post.html',{'form':form})
 
 def business(request):
     current_user = request.user

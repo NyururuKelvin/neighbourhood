@@ -5,13 +5,11 @@
 {% block content %}
     <div class="container">
         <div class="row" style="padding-top: 60px;">
-            <div class="col s12 m12">
-              <div class="card-panel">
-                <div class="header" style="border-bottom: 1px solid rgba(231, 4, 175, 0.904);">
-                    <h5>{{post.title}}</h5>
+            <div class="col-lg-3 col-md-3"></div>
+                <div class="col-lg-6 col-md-6">
+                <div class="header" style="border-bottom: 1px solid rgba(231, 4, 175, 0.904); text-align: center; margin-bottom: 2%;">
+                    <h5>UPLOAD YOUR POST</h5>
                 </div>
-                    <p>{{post.content}}</p>
-                    <p>Posted by: {{post.user}}</p>
                     <form  action="{%url 'post' %}" method="post" enctype="multipart/form-data">
                       {%csrf_token%}
 
@@ -24,7 +22,7 @@
                         </div>
                     {% endfor %}
               </div>
-            </div>
+              <div class="col-lg-3 col-md-3"></div>
         </div>
     </div>
 {% endblock %}
