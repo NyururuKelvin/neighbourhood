@@ -22,27 +22,27 @@ def index(request):
         if form.is_valid():
             post = form.save(commit=False)
             post.user = current_user
-            post.neighborhood = profile.neighborhood
+            post.neighbourhood = profile.neighbourhood
             post.type = request.POST['type']
             post.save()
 
             if post.kind == '1':
-                recipients = UserProfile.objects.filter(neighborhood=post.neighborhood)
+                recipients = Profile.objects.filter(neighbourhood=post.neighbourhood)
                 for recipient in recipients:
-                    send_a_email(post.title,post.content,recipient.email)
+                    send_an_email(post.title,post.description,recipient.email)
 
         return redirect('index')
     else:
         form = PostForm()
 
-    return render(request, 'temps/index.html', {'profile':profile,'posts': posts, 'form':form})
+    return render(request, 'temps/index.html', {'users':users,'posts': posts, 'form':form})
 
 def about(request):
     return render(request, 'temps/about_us.html')
 
 @login_required
-def profile(request):
-    return render(request,'temps/profile.html')
+def contacts(request):
+    return render(request,'temps/contacts.html')
 
 def signup(request):
     name = "Sign Up"
@@ -107,7 +107,7 @@ def edit_profile(request,username):
             form = UpdateProfile(instance=profile)
         else:
             form = UpdateProfile()
-    return render(request,'edit_profile.html',{"form":form})
+    return render(request,'temps/edit_profile.html',{"form":form})
 
 @login_required
 def post(request):
@@ -117,7 +117,7 @@ def post(request):
         if form.is_valid():
             post=form.save(commit=False)
             post.user=current_user
-            Post.save()
+            post.save()
         return redirect('index')
     
     else:
@@ -136,7 +136,7 @@ def business(request):
             business.user = current_user
             business.neighbourhood = neighbourhood
             business.save()
-            return redirect('businesses')
+            return redirect('business')
     else:
         form = BusinessForm()
 
@@ -145,7 +145,7 @@ def business(request):
     except:
         businesses = None
 
-    return render(request,'companies.html',{"businesses":businesses,"form":form})
+    return render(request,'temps/business.html',{"businesses":businesses,"form":form})
 
 class BusinessList(APIView):
     def get(self, request, format=None):

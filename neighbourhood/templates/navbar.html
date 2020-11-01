@@ -1,3 +1,4 @@
+{%load static%}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,7 +13,9 @@
         <div class="container-fluid">
           <div class="navbar-header">
             <a class="navbar-brand" href="{% url 'index' %}">DIGITAL NEIGHBOURHOOD</a>
-            <a class="navbar-brand" href="{% url 'about' %}">About Us</a>
+            <a class="navbar-brand" href="{% url 'about' %}">About Us~</a>
+            <a href="{% url 'business' %}">Businesses Around ~</a>
+            <a href="{% url 'contacts' %}" class="modal-trigger">Emergency Contacts</a>
           </div>
           <!-- Adding a search form  -->
           <div class="col-sm-2 col-md-2 navbar-right">
@@ -29,6 +32,7 @@
             </form>
           </div>
           <!-- search form end -->
+          <a class="right" href="{% url 'edit_profile' user.username %}" style="margin: 10px;"><img src="{% static 'images/images.jpeg' %}" alt="" style="height: 30px; width: 30px; border-radius: 30px;"></a>
           <div class="item has-tablet" id="bt-submit"><a href="{% url 'post' %}" class="button"><span>SUBMIT YOUR POST</span></a></div>
         </div>
       </nav>
