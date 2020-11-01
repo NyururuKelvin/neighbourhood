@@ -13,9 +13,15 @@ from .email import send_an_email
 def index(request):
     # Default view
     current_user = request.user
-    posts = Post.objects.all()
-    users = Profile.objects.all()
-    comments = Comment.get_comments()
+    try:
+        profile = Profile.objects.get(user = current_user)
+    except:
+        return redirect('edit_profile',username = current_user.username)
+
+    try:
+        posts = Post.objects.filter(neighbourhood = profile.neighbourhood)
+    except:
+        posts = None
 
     if request.method == 'POST':
         form = PostForm(request.POST)
@@ -35,7 +41,7 @@ def index(request):
     else:
         form = PostForm()
 
-    return render(request, 'temps/index.html', {'users':users,'posts': posts, 'form':form})
+    return render(request, 'temps/index.html', {'profile':profile,'posts': posts, 'form':form})
 
 def about(request):
     return render(request, 'temps/about_us.html')
