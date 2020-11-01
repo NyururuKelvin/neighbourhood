@@ -6,8 +6,10 @@ from .forms import PostForm,UpdateUser,SignUpForm,CommentForm,UpdateProfile
 from django.contrib.auth.models import User
 from rest_framework.views import APIView
 from .serializer import BusinessSerializer
+from .email import send_an_email
 
 # Create your views here.
+@login_required
 def index(request):
     # Default view
     current_user = request.user
@@ -38,6 +40,7 @@ def index(request):
 def about(request):
     return render(request, 'temps/about_us.html')
 
+@login_required
 def profile(request):
     return render(request,'temps/profile.html')
 
@@ -62,6 +65,7 @@ def signup(request):
         form = SignUpForm()
     return render(request, 'registration/registration_form.html', {'form': form, 'name':name})
 
+@login_required
 def search_business(request):
     """
     Function that searches for projects
@@ -78,6 +82,7 @@ def search_business(request):
         message = "You haven't searched for any term"
         return render(request, 'temps/search.html', {"message": message})
 
+@login_required
 def edit_profile(request,username):
     current_user = request.user
     if request.method == 'POST':
@@ -104,6 +109,7 @@ def edit_profile(request,username):
             form = UpdateProfile()
     return render(request,'edit_profile.html',{"form":form})
 
+@login_required
 def post(request):
     current_user=request.user
     if request.method=='POST':
@@ -119,6 +125,7 @@ def post(request):
         
     return render(request,'temps/post.html',{'form':form})
 
+@login_required
 def business(request):
     current_user = request.user
     neighbourhood = Profile.objects.get(user = current_user).neighbourhood

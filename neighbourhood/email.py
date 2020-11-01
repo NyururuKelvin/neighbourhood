@@ -2,7 +2,7 @@
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 
-def send_a_email(title,content,receiver):
+def send_an_email(title,content,receiver):
     # Creating message subject and sender
     subject = 'Notification'
     sender = 'Neighbourhood'
