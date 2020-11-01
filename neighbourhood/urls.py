@@ -10,7 +10,7 @@ urlpatterns=[
     url(r'^signup', views.signup, name='signup'),
     url(r'^login', LoginView.as_view(), name='login_url'),
     url(r'^logout/', LogoutView.as_view(next_page='login_url'), name='logout_url'),
-    url(r'^new/post', views.new_post, name='new_post'),
+    url(r'post/(?P<id>\d+)',views.post,name='post'),
     url(r'^user/profile', views.profile, name='profile'),
     url(r'^update/user/',views.update_profile, name='update_profile'),
     url(r'^search/', views.search_business, name='search'),

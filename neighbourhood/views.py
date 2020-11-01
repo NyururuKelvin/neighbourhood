@@ -2,7 +2,7 @@ from django.shortcuts import render,get_object_or_404,redirect,redirect
 from django.http  import HttpResponse,Http404,HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from .models import Post,Business,Profile,Neighbourhood,Comment
-from .forms import PostForm,UpdateUser,SignUpForm,CommentForm
+from .forms import PostForm,UpdateUser,SignUpForm,CommentForm,UpdateProfile
 from django.contrib.auth.models import User
 
 # Create your views here.
@@ -76,35 +76,70 @@ def search_business(request):
         message = "You haven't searched for any term"
         return render(request, 'temps/search.html', {"message": message})
 
-def update_profile(request):
-
-    profile = User(user=request.user)
-
-    update_user=UpdateUser(request.POST,instance=request.user)
-    update_profile=UpdateProfile(request.POST,request.FILES,instance=profile)
-    if update_user.is_valid() and update_profile.is_valid():
-        update_user.save()
-        update_profile.save()
-        
-        messages.success(request, 'Profile Updated Successfully')
-        return redirect('profile')
-    
+def edit_profile(request,username):
+    current_user = request.user
+    if request.method == 'POST':
+        try:
+            profile = Profile.objects.get(user=current_user)
+            form = UpdateProfile(request.POST,instance=profile)
+            if form.is_valid():
+                profile = form.save(commit=False)
+                profile.user = current_user
+                profile.save()
+            return redirect('index')
+        except:
+            form = UpdateProfile(request.POST)
+            if form.is_valid():
+                profile = form.save(commit=False)
+                profile.user = current_user
+                profile.save()
+            return redirect('index')
     else:
-        update_user=UpdateUser(instance=request.user)
-        update_profile=UpdateProfile(instance=profile)
-    return render(request, 'temps/update_profile.html',{'update_user':update_user,'update_profile':update_profile})
+        if Profile.objects.filter(user=current_user):
+            profile = Profile.objects.get(user=current_user)
+            form = UpdateProfile(instance=profile)
+        else:
+            form = UpdateProfile()
+    return render(request,'edit_profile.html',{"form":form})
 
-def new_post(request):
-    current_user=request.user
-    if request.method=='POST':
-        form=PostPost(request.POST,request.FILES)
+def post(request,id):
+    post = Post.objects.get(id=id)
+    comments = Comment.objects.filter(post=post)
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
         if form.is_valid():
-            project=form.save(commit=False)
-            project.user=current_user
-            project.save()
-        return redirect('index')
-    
+            comment = form.save(commit=False)
+            comment.user = request.user
+            comment.post = post
+            comment.save()
+        return redirect('post',id = post.id)
     else:
-        form=PostPost()
-        
-    return render(request,'temps/new_post.html',{'form':form})
+        form = CommentForm()
+    return render(request,'post.html',{"post":post,"comments":comments,"form":form})
+
+def business(request):
+    current_user = request.user
+    neighbourhood = Profile.objects.get(user = current_user).neighbourhood
+    if request.method == 'POST':
+        form = BusinessForm(request.POST)
+        if form.is_valid():
+            business = form.save(commit=False)
+            business.user = current_user
+            business.neighbourhood = neighbourhood
+            business.save()
+            return redirect('businesses')
+    else:
+        form = BusinessForm()
+
+    try:
+        businesses = Business.objects.filter(neighbourhood = neighbourhood)
+    except:
+        businesses = None
+
+    return render(request,'companies.html',{"businesses":businesses,"form":form})
+
+class CompanyList(APIView):
+    def get(self, request, format=None):
+        all_businesses = Business.objects.all()
+        serializers = BusinessSerializer(all_businesses, many=True)
+        return Response(serializers.data)
