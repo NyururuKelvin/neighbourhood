@@ -3,56 +3,43 @@
 {% load static %}
 
 {% block content %}
-    <div class="container">
-        <div class="col m12">
-            <button class="btn right hoverable modal-trigger" type="button" name="button" style="margin: 20px;" href="#modal1"><i class="material-icons left">add_circle_outline</i> Add Company</button>
-            {% if businesses %}
-            <table>
-            <thead>
-              <tr>
-                  <th>Name</th>
-                  <th>Description</th>
-                  <th>Owner</th>
-                  <th>Email</th>
-              </tr>
-            </thead>
-
-            <tbody>
-                {% for business in businesses %}
-                    <tr>
-                      <td>{{business.name}}</td>
-                      <td>{{business.description}}</td>
-                      <td>{{business.user}}</td>
-                      <td>{{business.email}}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-          </table>
-          {% else %}
-          <h1 class="center-align">There are no businesses registered in your Neighborhood</h1>
-          {% endif %}
-        </div>
-          <!-- Modal Structure -->
-          <div id="modal1" class="modal" style="max-height: 800px !important;">
-            <form action="{%url 'companies' %}" method='post' enctype="multipart/form-data">
-            <div class="modal-content">
-              <h4>Add a Company</h4>
-
-                  {% csrf_token %}
-                  {{ form }}
-
+<div class="container">
+  <div class="col m12" style="margin-top: 8%;">
+    {% if businesses %}
+      {% for business in businesses %}
+        <div class="row">
+          <div class="col-md-2"></div>
+          <div class="col-md-8">
+            <div class="card" style="width: 48rem; border: rgb(172, 24, 73) solid 1px;">
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">Name: {{business.name}}</li>
+                <li class="list-group-item">Description: {{business.description}}</li>
+                <li class="list-group-item">Owner: {{business.user}}</li>
+                <li class="list-group-item">Email: {{business.email}}</li>
+              </ul>
             </div>
-            <div class="modal-footer">
-              <button type='submit' class="btn btn-danger" style="margin-right:20px;">Submit</button>
-            </div>
-            </form>
           </div>
+          <div class="col-md-2"></div>
+        </div> <br>
+        {%endfor%}
+    {% else %}
+    <h4 class="center-align" style="border-bottom: black solid 1px; margin-bottom: 2%;">There are no businesses registered in your Neighborhood</h4>
+    {% endif %}
+  </div>
+    <!-- Modal Structure -->
+    <div>
+      <form action="{%url 'business' %}" method='post' enctype="multipart/form-data">
+      <div class="modal-content">
+        <h4>Add a Business</h4>
+
+            {% csrf_token %}
+            {{ form }}
+
+      </div>
+      <div class="modal-footer">
+        <button type='submit' class="btn btn-danger" style="margin-right:20px;">Submit</button>
+      </div>
+      </form>
     </div>
-    {% block scripts%}
-     <script type="text/javascript">
-         $(document).ready(function(){
-            $('.modal').modal();
-          });
-     </script>
-    {% endblock %}
+</div>
 {% endblock %}

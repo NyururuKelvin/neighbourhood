@@ -37,23 +37,33 @@
             <span class="carousel-control-next-icon"></span>
         </a>
     </div>
-
-    <div class="container" >
+    <div class="container-fluid" style="background-color: rgb(172, 24, 73); color: black;">
+    <div class="container">
         <div class="row">
             <div class="col m12">
-                <legend style="text-align: center;">{{profile.neighbourhood}} neighbourhood</legend>
-
+                <h2 style="text-align: center; border-bottom: black solid 1px;">{{profile.neighbourhood}} neighbourhood</h2>
             </div>
-            {% for post in posts %}
-            <div class="col s12 m6">
-             <div class="card-panel">
-               <h5>{{post.title}}</h5>
-               <p>{{post.description}}</p>
-             </div>
-            </div>
-            {% endfor %}
         </div>
+            {% for post in posts %}
+                <div class="row">
+                    <div class="col m6">
+                        <div class="card text-center">
+                            <div class="card-header">
+                                <h5>{{post.title}}</h5>
+                            </div>
+                            <div class="card-body">
+                              <p class="card-text">{{post.post}}</p>
+                            </div>
+                            <div class="card-footer text-muted">
+                             By:  {{post.user}}
+                            </div>
+                        </div>
+                    </div>
+                </div> <br>
+            {% endfor %}
+
         {% block script%}
         {% endblock %}
+    </div>
     </div>
 {%endblock%}

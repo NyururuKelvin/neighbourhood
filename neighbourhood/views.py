@@ -2,7 +2,7 @@ from django.shortcuts import render,get_object_or_404,redirect,redirect
 from django.http  import HttpResponse,Http404,HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from .models import Post,Business,Profile,Neighbourhood,Comment
-from .forms import PostForm,UpdateUser,SignUpForm,CommentForm,UpdateProfile
+from .forms import PostForm,UpdateUser,SignUpForm,CommentForm,UpdateProfile,BusinessForm
 from django.contrib.auth.models import User
 from rest_framework.views import APIView
 from .serializer import BusinessSerializer
