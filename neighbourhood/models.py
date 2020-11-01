@@ -72,7 +72,7 @@ class Business(models.Model):
         business = Business.objects.get(name__icontains=search_term)
         return business
 
-    def update_company(self):
+    def update_business(self):
         self.save()
 
 class Post(models.Model):
@@ -80,7 +80,9 @@ class Post(models.Model):
     title=models.CharField(max_length=60)
     post=models.TextField()
     neighbourhood = models.ForeignKey(Neighbourhood,on_delete = models.CASCADE)
+    kind = models.CharField(max_length = 50,null=True)
     posted=models.DateTimeField(auto_now_add=True) 
+    
 
     def __str__(self):
         return self.title

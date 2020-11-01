@@ -1,8 +1,8 @@
-from django.shortcuts import render,get_object_or_404,redirect
-from django.http  import HttpResponse
+from django.shortcuts import render,get_object_or_404,redirect,redirect
+from django.http  import HttpResponse,Http404,HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from .models import Post,Business,Profile,Neighbourhood,Comment
-from .forms import PostPost,UpdateUser,SignUpForm,CommentForm
+from .forms import PostForm,UpdateUser,SignUpForm,CommentForm
 from django.contrib.auth.models import User
 
 # Create your views here.
@@ -14,17 +14,24 @@ def index(request):
     comments = Comment.get_comments()
 
     if request.method == 'POST':
-        form = CommentForm(request.POST)
+        form = PostForm(request.POST)
         if form.is_valid():
-            comment = form.save(commit=False)
-            comment.user = current_user
-            comment.post = Post.objects.get(id=int(request.POST["post_id"]))
-            comment.save()
-            return redirect('index')
-    else:
-        form = CommentForm()
+            post = form.save(commit=False)
+            post.user = current_user
+            post.neighborhood = profile.neighborhood
+            post.type = request.POST['type']
+            post.save()
 
-    return render(request, 'temps/index.html', {'current_user':current_user,'posts': posts, 'form':form, 'comments':comments, 'users':users, })
+            if post.kind == '1':
+                recipients = UserProfile.objects.filter(neighborhood=post.neighborhood)
+                for recipient in recipients:
+                    send_a_email(post.title,post.content,recipient.email)
+
+        return redirect('index')
+    else:
+        form = PostForm()
+
+    return render(request, 'temps/index.html', {'profile':profile,'posts': posts, 'form':form})
 
 def about(request):
     return render(request, 'temps/about_us.html')

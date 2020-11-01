@@ -38,37 +38,47 @@
         </a>
     </div>
 
-    <div class="container">
-        <legend style="text-align: center;">POSTS</legend>
+    <div class="container" >
         <div class="row">
-            <div class="col-lg-2 col-md-2 col-sm-1 col-xs-1"></div>
-            <div class="col-lg-8 col-md-8 col-sm-10 col-xs-10">
-                {% for post in posts %}
-                <article>
-                    <div class="card">
-                        <img style="height: 60vh; width: 100%;" class="card-img-top" src="{{post.image.url}}" alt="Card image cap">
-                        <div class="card-body" >
-                            <h5> <strong>{{post.title}}</strong></h5>
-                            <p>{{post.post}}</p>
-                            <h6>Comments: </h6>
-                            {% for comment in comments %}
-                                {%if post.id == comment.post.id%}
-                                    <p><a href="{% url 'profile' }"><strong>{{comment.user.username}}</strong></a> {{comment.comment | title}}</p>
-                                {%endif%}
-                            {% endfor %}
-    
-                            <form method="post" style="margin-top: 1.3em; margin-left: 2%;">
-                                {{form.comment}}
-                                {% csrf_token %}
-                                <input style="border-radius: 8px;" type="hidden" value="{{post.id}}" name="post_id" />
-                                <button type="submit" class="btn btn-primary" style="padding: 2px;">Comment</button>
-                            </form>
-                        </div>
-                    </div>
-                </article><hr>
-                {% endfor%}
+            <div class="col m12">
+                <legend style="text-align: center;">Hood Watch For {{profile.neighborhood}}</legend>
+
+            </div>
+            {% for post in posts %}
+            <div class="col s12 m6">
+             <div class="card-panel">
+               <h5>{{post.title}}</h5>
+               <p>{{post.description|truncatechars:1000}}</p>
+               <a class="waves-effect waves-light btn" href="{% url 'post' %}">Read More</a>
+             </div>
+            </div>
+            {% endfor %}
+            <div class="fixed-action-btn">
+                <a class="btn-floating btn-large pink modal-trigger" href="#modal1"><i class="large material-icons">add</i></a>
             </div>
         </div>
-        <div class="col-lg-2 col-md-2 col-sm-1 col-xs-1"></div>
-    </div> <hr>
+        <!-- Modal Structure -->
+        <div id="modal1" class="modal" style="max-height: 800px !important;">
+          <form action="{% url 'index' %}" method='post' enctype="multipart/form-data">
+          <div class="modal-content">
+            <h4>Add a Post</h4>
+
+                {% csrf_token %}
+                {{ form }}
+
+          </div>
+          <div class="modal-footer">
+              <button type='submit' class="btn btn-primary" style="margin-right:20px;">Submit</button>
+          </div>
+          </form>
+        </div>
+          {% block script%}
+          <script type="text/javascript">
+              $(document).ready(function(){
+                $('.modal').modal();
+                $('select').formSelect();
+              });
+          </script>
+          {% endblock %}
+    </div>
 {%endblock%}

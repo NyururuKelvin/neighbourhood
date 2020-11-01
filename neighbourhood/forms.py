@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django import forms
-from .models import Post,Neighbourhood,Comment,Business,Profile,Post
+from .models import Post,Neighbourhood,Comment,Business,Profile
 from django.contrib.auth.forms import UserCreationForm
 
 class SignUpForm(UserCreationForm):
@@ -32,7 +32,9 @@ class BusinessForm(forms.ModelForm):
         model = Business
         exclude = ['user','neighborhood']
 
-class PostPost(forms.ModelForm):
+class PostForm(forms.ModelForm):
+    CHOICES = (('1', 'Amber',), ('2', 'Normal',))
+    kind = forms.ChoiceField(widget=forms.Select, choices=CHOICES)
     class Meta:
         model=Post
         fields=['title','post',]
