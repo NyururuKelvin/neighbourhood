@@ -16,16 +16,16 @@
         <!-- The slideshow -->
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img src="{{request.scheme}}://{{request.META.HTTP_HOST}}{% static 'images/1.jpg' %}" alt="image" style="width: 100%; height: 90vh;">
+                <img src="{{request.scheme}}://{{request.META.HTTP_HOST}}{% static 'images/1.jpg' %}" alt="image" style="width: 100%; height: 80vh;">
             </div>
             <div class="carousel-item">
-                <img src="{{request.scheme}}://{{request.META.HTTP_HOST}}{% static 'images/2.jpg' %}" alt="image" style="width: 100%; height: 90vh;">
+                <img src="{{request.scheme}}://{{request.META.HTTP_HOST}}{% static 'images/2.jpg' %}" alt="image" style="width: 100%; height: 80vh;">
             </div>
             <div class="carousel-item">
-                <img src="{{request.scheme}}://{{request.META.HTTP_HOST}}{% static 'images/4.jpg' %}" alt="image" style="width: 100%; height: 90vh;">
+                <img src="{{request.scheme}}://{{request.META.HTTP_HOST}}{% static 'images/4.jpg' %}" alt="image" style="width: 100%; height: 80vh;">
             </div>
             <div class="carousel-item">
-                <img src="{{request.scheme}}://{{request.META.HTTP_HOST}}{% static 'images/6.jpg' %}" alt="image" style="width: 100%; height: 90vh;">
+                <img src="{{request.scheme}}://{{request.META.HTTP_HOST}}{% static 'images/6.jpg' %}" alt="image" style="width: 100%; height: 80vh;">
             </div>
         </div>
         
@@ -41,7 +41,7 @@
     <div class="container">
         <div class="row">
             <div class="col m12">
-                <h2 style="text-align: center; border-bottom: black solid 1px;">{{profile.neighbourhood}} neighbourhood</h2>
+                <h2 style="text-align: center; border-bottom: black solid 1px; color: white">{{profile.neighbourhood}} neighbourhood Posts</h2>
             </div>
         </div>
             {% for post in posts %}
