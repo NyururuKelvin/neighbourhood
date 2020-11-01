@@ -1,4 +1,11 @@
-{%load static%}
+{% load bootstrap4 %}
+{% load static%}
+{% block styles %}
+  {% bootstrap_css %}
+  <link rel="stylesheet" href="{% static 'css/index.css' %}">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+{% endblock %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,6 +40,7 @@
           </div>
           <!-- search form end -->
           <a class="right" href="{% url 'edit_profile' user.username %}" style="margin: 10px;"><img src="{% static 'images/images.jpeg' %}" alt="" style="height: 30px; width: 30px; border-radius: 30px;"></a>
+          <a style="color: black; padding-left: 15px; " href="/logout"><i class="fa fa-sign-out" style="font-size:24px"></i></a>
           <div class="item has-tablet" id="bt-submit"><a href="{% url 'post' %}" class="button"><span>SUBMIT YOUR POST</span></a></div>
         </div>
       </nav>
