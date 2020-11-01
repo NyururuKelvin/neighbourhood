@@ -4,6 +4,8 @@ from django.contrib.auth.decorators import login_required
 from .models import Post,Business,Profile,Neighbourhood,Comment
 from .forms import PostForm,UpdateUser,SignUpForm,CommentForm,UpdateProfile
 from django.contrib.auth.models import User
+from rest_framework.views import APIView
+from .serializer import BusinessSerializer
 
 # Create your views here.
 def index(request):
@@ -138,7 +140,7 @@ def business(request):
 
     return render(request,'companies.html',{"businesses":businesses,"form":form})
 
-class CompanyList(APIView):
+class BusinessList(APIView):
     def get(self, request, format=None):
         all_businesses = Business.objects.all()
         serializers = BusinessSerializer(all_businesses, many=True)

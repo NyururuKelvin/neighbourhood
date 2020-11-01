@@ -14,6 +14,8 @@ urlpatterns=[
     url(r'^user/profile', views.profile, name='profile'),
     url(r'^update/user/',views.update_profile, name='update_profile'),
     url(r'^search/', views.search_business, name='search'),
+    url(r'^business',views.companies,name = 'business'),
+    url(r'^api/business/$', views.ProjectList.as_view()),
 ]
 if settings.DEBUG:
     urlpatterns+= static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
