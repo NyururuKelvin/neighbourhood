@@ -45,6 +45,7 @@ class Profile(models.Model):
     last_name = models.CharField(max_length = 50,null=True)
     bio = models.TextField(null=True)
     neighbourhood = models.ForeignKey(Neighbourhood, on_delete=models.CASCADE)
+    location = models.ForeignKey(Location,on_delete = models.CASCADE,null=True)
     email = models.EmailField(max_length=60, blank=True)
     
     def __str__(self):
@@ -80,7 +81,6 @@ class Post(models.Model):
     title=models.CharField(max_length=60)
     post=models.TextField()
     neighbourhood = models.ForeignKey(Neighbourhood,on_delete = models.CASCADE,null=True)
-    kind = models.CharField(max_length = 50,null=True)
     posted=models.DateTimeField(auto_now_add=True) 
     
 

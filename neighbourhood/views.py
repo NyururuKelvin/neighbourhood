@@ -12,6 +12,7 @@ from .email import send_an_email
 @login_required
 def index(request):
     # Default view
+    comments = Comment.get_comments()
     current_user = request.user
     try:
         profile = Profile.objects.get(user = current_user)
@@ -24,24 +25,17 @@ def index(request):
         posts = None
 
     if request.method == 'POST':
-        form = PostForm(request.POST)
+        form = CommentForm(request.POST)
         if form.is_valid():
-            post = form.save(commit=False)
-            post.user = current_user
-            post.neighbourhood = profile.neighbourhood
-            post.type = request.POST['kind']
-            post.save()
-
-            if post.kind == '1':
-                recipients = Profile.objects.filter(neighbourhood=post.neighbourhood)
-                for recipient in recipients:
-                    send_an_email(post.title,post.description,recipient.email)
-
-        return redirect('index')
+            comment = form.save(commit=False)
+            comment.user = current_user
+            comment.post = Post.objects.get(id=int(request.POST["post_id"]))
+            comment.save()
+            return redirect('index')
     else:
-        form = PostForm()
+        form = CommentForm()
 
-    return render(request, 'temps/index.html', {'profile':profile,'posts': posts, 'form':form})
+    return render(request, 'temps/index.html', {'profile':profile,'posts': posts, 'form':form,'comments':comments})
 
 def about(request):
     return render(request, 'temps/about_us.html')
@@ -58,7 +52,7 @@ def signup(request):
             form.save()
             email = form.cleaned_data.get('email')
             name = form.cleaned_data.get('username')
-            send_mail(
+            send_an_mail(
             'Welcome to Neighbourhood App.',
             f'Hello {name},\n '
             'Welcome to Neighbourhood App and have fun.',
@@ -136,7 +130,6 @@ def post(request):
             post=form.save(commit=False)
             post.user=current_user
             post.neighbourhood = profile.neighbourhood
-            post.kind = request.POST['kind']
             post.save()
         return redirect('index')
     

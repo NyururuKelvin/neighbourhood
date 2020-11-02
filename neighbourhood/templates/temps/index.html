@@ -52,10 +52,22 @@
                                 <h5>{{post.title}}</h5>
                             </div>
                             <div class="card-body">
-                              <p class="card-text">{{post.post}}</p>
+                              <p class="card-text" style="color: crimson;">{{post.post}}</p>
+                                {% for comment in comments %}
+                                {%if post.id == comment.post.id%}
+                                <p>Comment: {{comment.comment}} ~ {{comment.user}}</p>
+                                {%endif%}
+                                {% endfor %}
+                                <form method="post" style="margin-top: 1.3em; margin-left: 2%;">
+                                    
+                                    {% csrf_token %}
+                                    {%bootstrap_form form%}
+                                    <input type="hidden" value="{{post.id}}" name="post_id" />
+                                    <button type="submit" class="btn" style="margin-bottom: 1%; background-color: rgb(172, 24, 73); color: white;">Comment</button>
+                                </form>
                             </div>
                             <div class="card-footer text-muted">
-                             By:  {{post.user}}
+                                Posted by:  {{post.user}}
                             </div>
                         </div>
                     </div>
